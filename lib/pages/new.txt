@@ -1,55 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
-import '../models/catalog.dart';
-import '../widgets/drawer.dart';
-// ignore: unused_import
-import '../widgets/item_widgets.dart';
-
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  final int days = 30;
-
-  final String name = "Codepur";
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  loadData() async {
-    await Future.delayed(const Duration(seconds: 2));
-    final catalogJson =
-        await rootBundle.loadString("assets/files/catalog.json");
-    final decodedData = jsonDecode(catalogJson);
-    var productsData = decodedData["products"];
-    CatalogModel.items = List.from(productsData)
-        .map<Item>((item) => Item.fromMap(item))
-        .toList();
-    setState(() {});
-  }
-
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Catalog App", style: TextStyle(
-          color: Colors.black,
-        ),),
+        title: const Text("Catalog App",style: TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: (CatalogModel.items.isNotEmpty)
+        // ignore: unnecessary_null_comparison
+        child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
             ? GridView.builder(
-                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const  SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
@@ -96,3 +59,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+

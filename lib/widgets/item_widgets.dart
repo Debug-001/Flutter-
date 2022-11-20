@@ -8,7 +8,7 @@ class ItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: const StadiumBorder(),
+      // shape: const StadiumBorder(),
         child: ListTile(
       leading: Image.network(item.image),
       title: Text(item.name),
