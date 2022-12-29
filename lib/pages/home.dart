@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_2/pages/home_detail_page.dart';
 import 'dart:convert';
 import '../models/catalog.dart';
 // ignore: unused_import
@@ -52,11 +53,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const CatalogHeader(),
                 if (CatalogModel.items.isNotEmpty)
-                  const CatalogList().expand()
+                  const CatalogList().py32().expand()
                 else
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
+                  const CircularProgressIndicator().centered().py16(),
               ],
             ),
           ),
@@ -89,7 +88,12 @@ class CatalogList extends StatelessWidget {
       itemCount: CatalogModel.items.length,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return CatalogItem(catalog: catalog);
+        return InkWell(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomeDetialPage(catalog: catalog))),
+            child: CatalogItem(catalog: catalog));
       },
     );
   }
@@ -98,16 +102,18 @@ class CatalogList extends StatelessWidget {
 class CatalogItem extends StatelessWidget {
   final Item catalog;
 
-  const CatalogItem({Key? key, required this.catalog})
-      : super(key: key);
+  const CatalogItem({Key? key, required this.catalog}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return VxBox(
       child: Row(
         children: [
-          CatalogImage(
-            image: catalog.image,
+        Hero(
+          tag: Key(catalog.id.toString()) ,
+            child: CatalogImage(
+              image: catalog.image,
+            ),
           ),
           Expanded(
               child: Column(
